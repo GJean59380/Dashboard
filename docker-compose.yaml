@@ -1,0 +1,35 @@
+version: "2.0"
+services:
+
+  db:
+    image: mysql:5.7
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_DATABASE: dashboard
+    ports:
+      - "3306:3306"
+    volumes:
+      - /var/lib/mysql
+    networks:
+      - data
+
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: pma
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - '8081:80'
+    networks:
+      - data
+
+networks:
+  data:
+    driver: bridge
